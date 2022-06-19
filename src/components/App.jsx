@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Searchbar from './Searchbar';
@@ -15,6 +15,7 @@ export function App() {
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState('idle');
   const [totalHits, setTotalHits] = useState(null);
+
 
   const onSearchSubmit = data => {
     if (data.toLowerCase() === searchQuery.toLowerCase()) return;
@@ -54,7 +55,7 @@ export function App() {
 
   return (
     <div className={s.App}>
-      <ToastContainer />
+      
       <Searchbar onSubmit={onSearchSubmit}></Searchbar>
 
         {status === 'resolved' && data.length > 0 && (
@@ -65,6 +66,7 @@ export function App() {
       {status === 'resolved' && data.length > 0 && data.length < totalHits && (
         <Button onLoadMore={() => setPage(prevPage => prevPage + 1)}></Button>
       )}
+      <ToastContainer/>
     </div>
   );
 

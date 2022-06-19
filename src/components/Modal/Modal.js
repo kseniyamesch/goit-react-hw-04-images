@@ -4,17 +4,17 @@ import PropTypes from 'prop-types';
 import s from './Modal.module.css';
 
 const modalRoot = document.querySelector('#modal-root');
-export default function Modal(props) {
+export default function Modal({onClose, children}) {
   const handleBackdropClick = evt => {
     if (evt.currentTarget === evt.target) {
-      props.onClose();
+     onClose();
     }
   };
 
   useEffect(() => {
     const handleKeyDown = evt => {
       if (evt.code === 'Escape') {
-        props.onClose();
+        onClose();
       }
     };
 
@@ -23,9 +23,8 @@ export default function Modal(props) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [props.onClose]);
+  }, [onClose]);
 
-  const { children } = props;
   return createPortal(
     <div className={s.Overlay} onClick={handleBackdropClick}>
       <div className={s.Modal}>{children}</div>
