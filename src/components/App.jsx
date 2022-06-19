@@ -35,6 +35,7 @@ export function App() {
           setData(state => [...state, ...response.data.hits]);
           setTotalHits(response.data.totalHits);
           setStatus('resolved');
+
         } else {
           toast.error(`${searchQuery} not found!`);
           setStatus('rejected');
@@ -45,23 +46,26 @@ export function App() {
         toast.error(error.message);
         setStatus('rejected');
       });
+      window.scrollBy({
+        top: document.body.clientHeight,
+        behavior: 'smooth',
+      });
   }, [searchQuery, page]);
 
-  const totalPages = totalHits / 12;
   return (
     <div className={s.App}>
       <ToastContainer />
       <Searchbar onSubmit={onSearchSubmit}></Searchbar>
 
-      {status === 'resolved' && searchQuery && (
+        {status === 'resolved' && data.length > 0 && (
         <ImageGallery images={data}></ImageGallery>
       )}
 
       {status === 'pending' && <Loader></Loader>}
-
-      {status === 'resolved' && totalPages > page && (
+      {status === 'resolved' && data.length > 0 && data.length < totalHits && (
         <Button onLoadMore={() => setPage(prevPage => prevPage + 1)}></Button>
       )}
     </div>
   );
+
 }

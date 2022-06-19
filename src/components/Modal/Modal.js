@@ -23,7 +23,7 @@ export default function Modal(props) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  });
+  }, [props.onClose]);
 
   const { children } = props;
   return createPortal(
